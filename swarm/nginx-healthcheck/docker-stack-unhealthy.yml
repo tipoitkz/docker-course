@@ -1,0 +1,25 @@
+services:
+  web:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    configs:
+      - source: index_html_unhealthy
+        target: /usr/share/nginx/html/index.html
+    healthcheck:
+      test: ["CMD", "/bin/sh", "-c", "wget -q -O- http://localhost/ | grep -q Hello || exit 1"]
+      interval: 10s
+      timeout: 3s
+      start_period: 5s
+      retries: 2
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+
+configs:
+  index_html_unhealthy:
+    file: ./html/index.html
