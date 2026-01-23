@@ -1,7 +1,7 @@
 FROM nginx:alpine
 
 # Копируем HTML файл
-COPY index.html /usr/share/nginx/html/index.html
+COPY html/index.html /usr/share/nginx/html/index.html
 
 # Устанавливаем curl для healthcheck
 RUN apk add --no-cache curl
