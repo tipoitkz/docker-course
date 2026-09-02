@@ -1,0 +1,18 @@
+services:
+  web-stack-config:
+    image: nginx:alpine
+    ports:
+      - "8081:80"
+    configs:
+      - source: nginx_conf
+        target: /etc/nginx/conf.d/default.conf
+    deploy:
+      replicas: 3
+      update_config:
+        parallelism: 1
+        delay: 5s
+
+configs:
+  nginx_conf:
+    file: ./nginx.conf
+    name: nginx_conf-${NGINX_CONF_HASH}
